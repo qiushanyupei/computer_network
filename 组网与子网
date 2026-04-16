@@ -1,0 +1,2 @@
+组网是工程上网络设备通过传输介质连接起来，子网是避免广播风暴和提升网络安全的一种手段，公/私有ip都较为常见。
+私网子网一般通过VLAN操作，公网子网通过BGP（Border Gateway Protocal）更新路由表；ISP（Internet Service Provider）即网络运营商。
