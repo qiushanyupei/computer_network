@@ -1,3 +1,10 @@
+TCP协议理论：
+1、通过socket机制（sip,dip,sport,dport）实现多路传输，在sip,dip确定时通过不同port传输数据包
+2、三次握手：payload部分通常为0
+1）A->B,SYN：A的序列号
+2）A<-B,SYN：B的序列号，ACK：A的序列号+1
+3）A->B,SYN：接收到包的ACK，ACK:B的序列号+1
+
 TCP协议头：
 sport(2字节）、dport（2字节）
 TCP Segment Len是wirehsark自动计算的data部分长度、seq_num(4字节)、ack_num(4字节)
