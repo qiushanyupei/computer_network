@@ -1,0 +1,12 @@
+TCP协议头：
+sport(2字节）、dport（2字节）
+TCP Segment Len是wirehsark自动计算的data部分长度、seq_num(4字节)、ack_num(4字节)
+Conversation completeness是对于wireshark对于当前TCP会话的信息总结
+header length(TCP头)(4bit)（以4字节为计算单位）、Reserverd(6bit)（可能低三位有其他作用）、其他标志位、window(2字节)、checksum(2字节)（校验TCP头+payload）、Urgent Pointer（2字节）（URGFlag置1时有效，指出报文段中紧急数据字节数，紧急数据在报文段数据最前）、Options（可变最长40字节）、Padding(用来补位、保证TCP头部是4字节的整数倍)
+Flags字段内部：
+URG(1bit):紧急指针有效标识（相当于高优先级的数据）。 
+ACK(1bit):确认序号有效标识。只有当ACK=1时确认号字段才有效。当ACK=0时，确认号无效。 
+PSH(1bit):标识接收方应该尽快将这个报文段交给应用层。接收到PSH = 1的TCP报文段，应尽快的交付接收应用进程，而不再等待整个缓存都填满了后再向上交付。 
+RST(1bit):重建连接标识。当RST=1时，表明TCP连接中出现严重错误（如由于主机崩溃或其他原因），必须释放连接，然后再重新建立连接。 
+SYN(1bit):同步序号标识，用来发起一个连接。SYN=1表示这是一个连接请求或连接接受请求。 
+FIN(1bit):发端完成发送任务标识。用来释放一个连接。FIN=1表明此报文段的发送端的数据已经发送完毕，并要求释放连接。
