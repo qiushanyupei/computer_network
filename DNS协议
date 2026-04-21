@@ -24,6 +24,23 @@ DNS请求payload部分：
 IPv4 地址的四段数字倒序，然后加上 in-addr.arpa 后缀(DNS查找逻辑是从右向左)
 name length：倒序部分长度（除去前后的点号）
 Label Count:域名被点号分隔后的段数
+
+DNS协议默认端口53
+windows nslookup命令可以查看对应域名的ip信息
+第一部分：服务器(DNS服务器名称)（对于内网的DNS服务器常不配置反向解析(不配置反向解析即没有域名)（ip->DNS））+Address（DNS服务器ip）
+第二部分：名称（规范名称、CNAME（canonical name）链终点）+ Address（DNS判断你的位置给你分配就近的CDN（Content Delivery Network），而不是源站服务器）(包含ipv4+ipv6地址，可能有多组，实际上是多个CDN用于负载均衡)+Aliases(域名别名)
+
+域名结构：最后是点号（根）->管理顶级域名服务器(TLD、Top Level Domain)（如com、cn、net、gov）->管理权威域名服务器（Authoritative）
+
+DNS正向解析（DNS->ip）流程：
+1、查看浏览器记录、主机记录，有则结束
+2、询问递归DNS服务器（查询权威DNS）（根域名服务器->顶级域服务器->权威DNS服务器）
+3、递归DNS服务器返回ip
+
+DNS正向解析（ip->DNS）流程：
+1、询问递归DNS:x.x.x.x.in-addr.arpa的PTR记录（根域名服务器->.arpa顶级域服务器->负责反向ip的服务器->按A、B、C类网段逐级向下）
+
+
 Type:查询的资源类型
 Class:表示网络类型，通常为Internet类型
 以太网Ⅱ协议在payload后还有帧尾部（Trailer），即为FCS(Frame Check Sequence)（用于验证数据包完整性）（通常为CRC-32）
