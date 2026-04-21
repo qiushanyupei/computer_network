@@ -1,0 +1,2 @@
+QinQ帧：在VLAN格式基础上在相邻位置加一层802.1Q tag。
+内层tag的type固定为0x8100,外层tag（左侧）type有多种选择
