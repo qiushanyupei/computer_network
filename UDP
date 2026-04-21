@@ -1,0 +1,2 @@
+传输层UDP头信息:源端口、目的端口、长度（UDP头+payload）、checksum
+wireshark会自动计算stream index，表示会话顺序；计算stream packet number，表示会话中的包顺序。
