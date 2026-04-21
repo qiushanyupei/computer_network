@@ -1,0 +1,32 @@
+应用层DNS头信息：
+参数Transaction ID(客户端发出的query id和服务器返回的response id一致，方便抓包工具判断)
+参数Flags(16 bit):（有RFC（Request For Comments）控制，互联网的标准技术文档，由IETF(Internet Engineering Task Force)制定）
+高1位：QR（0 = Query；1 = Response）
+高2-5位：Opcode(operation code)（0 = Standard query;2 = Status query（查询服务器状态，对于服务器有安全风险，常refused或 not implemented））
+Standard query：将“域名”解析为“IP地址”（A记录）（Address Record），或者反向将IP解析为域名（PTR记录）（Pointer Record），或者查询邮件服务器（MX记录）（Mail Exchange Record）、别名（CNAME记录）
+
+高6位：AA（Authorized Answer）(仅响应)（0 = 非权威；1 = 响应来自权威服务器）
+高7位：TC（Truncated）(0 = 消息未截断;1 = 消息超过512字节并被截断（UDP）)
+高8位：RD（Recursive desired）(仅查询)(0 = 不要求递归查询;1 = 要求递归查询)
+普通用户常要求递归查询，因为非递归查询只返回本地缓存里有的，没有就返回引用(NS记录（name server record:记录查询的域名和能解析它的权威域名服务器）和A记录)，指向下一级域名服务器，对普通用户查询不友好？
+高9位：RA（Recursive Available）(仅响应)(0 = 服务器不支持递归;1 = 服务器支持递归)
+高10位：保留位Z
+高11位：0 = 未验证 / 不支持 DNSSEC；1 = 应答的 Answer/Authority 部分已通过 DNSSEC 验证
+DNSSEC：Domain Name System Security Extensions（提供数字签名保证数据未篡改）
+
+高12位：0 = 正常验证；1 = 客户端请求服务器不要验证 DNSSEC 签名
+高13~16位：Rcode	(仅响应)（0 = No error；1 = Format error；2 = Server failure；3 = Name error（域名未注册、不存在）；4 = Not implemented；5 = Refused）;其他不太常用
+
+DNS请求payload部分：
+参数Questions、Answer RRs、Authority RRs（为1表示是权威服务器资源为1）、Additional RRs
+在查询请求报文中后三个参数通常为0
+反向DNS查询payload:
+IPv4 地址的四段数字倒序，然后加上 in-addr.arpa 后缀(DNS查找逻辑是从右向左)
+name length：倒序部分长度（除去前后的点号）
+Label Count:域名被点号分隔后的段数
+Type:查询的资源类型
+Class:表示网络类型，通常为Internet类型
+以太网Ⅱ协议在payload后还有帧尾部（Trailer），即为FCS(Frame Check Sequence)（用于验证数据包完整性）（通常为CRC-32）
+
+对于有关私有ip的DNS反向解析,RFC会设置DNS服务器不递归，不返回结果，直接返回无责任SOA记录。
+SOA （Start Of Authority）（起始授权记录）：标识了一个 DNS 区域的起点，并包含该区域的管理和版本控制信息（如主域名服务器、管理员邮箱、序列号、刷新间隔等）。
