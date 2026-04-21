@@ -1,0 +1,6 @@
+VLAN帧格式相对于EthernetⅡ帧，在smac和2字节的length/type之间插入4字节的802.1Q Tag；帧总长最长较Ethernet Ⅱ也多4字节，为1522字节。
+802.1Q Tag组成部分：
+1、Type(2字节)：固定为0x8100
+2、PRI（Priority）（3bit）：0~7,值越大优先级越高、交换机阻塞时优先发送
+3、CFI (Canonical Format Indicator)（1bit):表示MAC地址是否是经典格式（非经典是高位字节在右，和经典格式方向相反）。CFI为1兼容FDDI（Fiber Distributed Digital Interface）帧和令牌环网帧（几乎淘汰）。在以太网中，CFI的值为0。
+4、VLANID（12 bit：0~4095）:只设置优先级，VLANid设置为0；4095是预留id
