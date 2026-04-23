@@ -18,10 +18,10 @@ DNSSEC：Domain Name System Security Extensions（提供数字签名保证数据
 高13~16位：Rcode	(仅响应)（0 = No error；1 = Format error；2 = Server failure；3 = Name error（域名未注册、不存在）；4 = Not implemented；5 = Refused）;其他不太常用
 
 DNS请求payload部分：
-参数Questions、Answer RRs、Authority RRs（为1表示是权威服务器资源为1）、Additional RRs
+参数Questions、Answer RRs、Authority RRs（为1表示是权威服务器资源为1）、Additional RRs（以上四个都是2字节）RRs(Resource Records Count)资源记录是一种特殊的数据结构，和query不同，是在payload中
 在查询请求报文中后三个参数通常为0
 反向DNS查询payload:
-IPv4 地址的四段数字倒序，然后加上 in-addr.arpa 后缀(DNS查找逻辑是从右向左)
+Name(不定长):IPv4 地址的四段数字倒序，然后加上 in-addr.arpa 后缀(DNS查找逻辑是从右向左)
 name length：倒序部分长度（除去前后的点号）
 Label Count:域名被点号分隔后的段数
 
