@@ -20,10 +20,18 @@ DNSSEC：Domain Name System Security Extensions（提供数字签名保证数据
 DNS请求payload部分：
 参数Questions、Answer RRs、Authority RRs（为1表示是权威服务器资源为1）、Additional RRs（以上四个都是2字节）RRs(Resource Records Count)资源记录是一种特殊的数据结构，和query不同，是在payload中
 在查询请求报文中后三个参数通常为0
-反向DNS查询payload:
+反向DNS查询payload（query）:（Query数据结构：QName(变长)、Qtype（2字节）、Qclass（2字节））
 Name(不定长):IPv4 地址的四段数字倒序，然后加上 in-addr.arpa 后缀(DNS查找逻辑是从右向左)
 name length：倒序部分长度（除去前后的点号）
 Label Count:域名被点号分隔后的段数
+
+RRs数据结构：（应答、授权、附加）
+NAME 不定长 资源记录包含的域名。 
+TYPE 2字节 表示资源记录的类型，指出RDATA数据的含义。 
+CLASS 2字节 表示RDATA的类。 
+TTL 4字节 无符号整数，表示资源记录可以缓存的秒数。和IP协议中的跳数不同
+RDLENGTH 2字节 无符号整数，表示RDATA的长度。 
+RDATA 不定长字符串）
 
 DNS协议默认端口53
 windows nslookup命令可以查看对应域名的ip信息
