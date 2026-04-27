@@ -1,0 +1,16 @@
+NTP(Network Time Protocol):实现客户端和服务器的时间同步，从而使网络内所有设备的时钟基本保持一致。基于UDP进行传输的，使用端口123。
+NTP通过层级(stratum)进行管理，逐层同步时间，防止上层服务器压力过载。上层服务器通常有多个备用。层级间传递的误差可以接受。
+常见模式有
+1)NTP控制报文格式 （客户端也能发）
+Association ID是本次连接的唯一标识 
+offset是时间的偏移量，即时间差多少
+2)NTP数据报文格式
+Leap Indicator（LI）（2bit）:
+0：无警告（正常状态，无闰秒调整）
+1：最后一分钟有 61 秒（正闰秒）
+2：最后一分钟有 59 秒（负闰秒）
+3：时钟未同步（警告状态，时间不可信）
+Precision:本机最细的时间粒度
+服务器A自己的Root Delay = （A ↔ B的往返延迟）+（B提供的Root Delay）
+Root Dispersion (根误差) =上游服务器的Root Dispersion + 本地测量引入的误差 + 本地时钟频率误差。
+Reference Identifier 指向上一层
