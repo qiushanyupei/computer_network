@@ -1,0 +1,23 @@
+
+DHCP（Dynamic Host Configuration Protocol）四种类型包：
+1)Discover(广播)（DHCP服务器和源主机在同一内网，但不知DHCP服务器ip）
+2）offer（广播（早期通过mac辨别）/单播（dip即为DHCP服务器分配的ip））:回复discover报文
+3）Request(广播):确认选用某个服务器的ip地址
+4）ACK（广播/单播）：回复Request报文，标志分配陈工
+
+DHCP头中需要注意的字段：
+Hops:客户端设置为0，经过中继代理服务器后+1
+ciaddr（client ip）（初次申请阶段为0.0.0.0）
+yiaddr(your ip)(服务器分配给客户端的ip)
+siaddr(server ip)（下一个为客户端提供启动信息的服务器 IP，普通DHCP通常不涉及）
+giaddr（gateway interface）(中继代理的 IP 地址（即第一跳路由器的地址）,服务器根据该字段判断客户端所属的子网，并从对应的地址池分配 IP)
+chaddr(client hardware):即mac地址，一共16字节，不足则用全0padding补齐
+
+DHCP options中需要注意的字段：（t表示option id,l表示length）
+option id=3,表示网关，长度为4*n，可能传递多个网关
+option id=7,表示log server（将客户端的日志发送该处），长度为4*n
+option id=26，表示Interface MTU，即给客户端网卡设置的MTU，长度为2字节 
+option id=33，表示静态路由（目的ip+下一跳地址），长度为8*n字节 
+option id=55，表示客户端向服务端请求的网络配置，在响应报文中由服务端发出
+option id=58,Renewal Time Value，在租期到达50%向原 DHCP 服务器单播续约，效率最高。
+option id=59，Rebinding Time Value，在租期过去87.5%，原服务器无响应时，通过向任何可用的 DHCP 服务器求助，作为备用方案。
