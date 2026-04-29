@@ -1,0 +1,15 @@
+ICMP（Internet control message P..）（网路控制+错误通知）
+ping、windows tracert命令属于该协议
+常见Type字段:
+0	Echo Reply	        ping 回复
+3	Destination Unreachable	端口/主机/网络不可达
+5	Redirect	        告诉主机“换一个更优网关”（对于更复杂的有多个网关可选择的局域网）
+8	Echo Request	        ping 请求
+11	Time Exceeded	        TTL （time to live）超时（traceroute/tracert通过TTL记录路由跳转信息，定位多跳路由中断问题）
+12	Parameter Problem	IP 头有问题
+其中traceroute第一列可看跳数；中间3列是发了3条数据包，看往返时间。中间如果有未显示的路由，可能中间路由不响应 tracert。ping仅显示最后一跳信息
+tracert常见参数：
+-d(don't resolve)：不将IP地址解析为域名；-h（maximum hops）：指定最大跳数，默认30；-w(wait-time)：每次回复的等待超时时间(毫秒)，默认4000；-4：强制使用 IPv4；-6：强制使用 IPv6
+checksum字段：校验ICMP报头+payload
+identifier字段：区分不同的ping程序（可能多个终端多个ping服务）
+Sequence Number字段：区分同一ping程序中不同请求
