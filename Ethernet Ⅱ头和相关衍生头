@@ -1,0 +1,8 @@
+eth头信息：smac、dmac、ethertype,stream index用于标记TCP流中的顺序。
+mac地址前3个字节：厂商OUI（组织唯一标识符，Organizationally Unique Identifier）（LG bit和IG bit在其中算是标志位，不算OUI的有效部分）；后三个字节：SN号
+mac地址附带信息：
+
+LG bit（第一个字节第7位） (Locally Administered （1）（类似私有地址）/ Globally Unique（0）)
+IG bit（第一个字节第8位） (Individual （0表示单播）/ Group（1表示组播/广播）)
+
+Ethernet Ⅱ 以太帧中Data部分：46-1500字节（保证帧长至少为64字节（6字节、6字节、2字节、4字节））；帧总长最长1518字节。
