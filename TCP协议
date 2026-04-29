@@ -13,6 +13,10 @@ TCP协议理论：
 客户端->服务端（第四次挥手）
 规则照旧，发送ACK（知道你发完了，结束吧）
 
+TCP四次挥手后最后收到FIN消息的一方发出ACK后进入 TIME_WAIT 状态，等待 2MSL（Maximum Segment Lifetime，最大报文生存时间）：
+1）确保对方收到最后一次ACK，防止对方超时重传
+2）让网络中残留的旧数据包消失（防止对新连接（同一个ip和端口组合再次连接）造成干扰）
+
 TCP四次挥手并不会在关掉浏览器页面时立即执行，浏览器仅是应用层协议HTTP链接的，TCP连接一般是通过超时机制关闭
 
 TCP常见报头含义分为：正常报文、keepalive、Duplicate ACK、重传、out-of-order、window update（wireshark自动识别）
