@@ -1,0 +1,18 @@
+IP头信息：sip、dip。
+首个字节中高四位：表示协议版本；第四位表示报头长度（还要*4字节）。
+第二个字节高6位表示DSCP（Differentiated Services Code Point,区分服务码点)（标记丢弃优先级，优先级低先丢弃）
+000 000	CS0 / Default	尽力而为，最低优先级
+其他常见组合为修改高3位提高优先级，如：
+111 000	CS7
+低2位表示：ECN	Explicit Congestion Notification（丢弃时采取的策略）
+00：普通包，路由器拥塞时直接丢弃（Not-ECT（ECN-Capable Transport））
+01（ECT(1)）或10（ECT(0)）：支持ECN的包，路由器拥塞时可以标记（改成11）而不丢弃
+11：已经被标记过的包，接收端收到后应通知发送方降速（CE（congestion encounter?））
+total_length表示IP报头+payload长度；
+Identification用于唯一标识一个 IP 数据包，接收端根据其重组报文分片
+Flags字段为3个bit、后13位为Fragment Offset(有偏移量就代表不是首个数据包分片)
+高1位：Reserved bit = 0 （保留位，正常为0）
+第2位：Don't fragment。0:允许分片；1：禁止分片（包太大就丢弃并返回 ICMP 错误）
+第3位：More fragments。1：后面更多分片；0：完整数据包或最后一个分片
+Time to live表示能经过的最大路由跳数
+Header Checksum： 16 位校验和，用于检测 IP 报头在传输过程中是否损坏
