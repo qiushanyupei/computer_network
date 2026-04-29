@@ -1,0 +1,5 @@
+PPP(Point-to-Point Protocol)帧：应用于宽带接入、工业网络
+满足：物理上有两端通过线缆互联 或 模拟的逻辑点对点
+其中FCS计算范围是flag字段外的其他区域（flag是PPP帧首尾标志）
+PPP中上有子层LCP(Logical Control Protocol)，PPP报文中的Information包含LCP包，LCP包中的Data部分是多个TLV组合（Type-Length-Data）
+LCP报头的Code字段中Configure-Nak是not ack，但会给出其他建议；reject则是直接拒绝；echo-request和echo-reply是测试链路是否联通；Discard-Request（要求丢弃）：通常用来做压力测试或单纯保持链路通畅
