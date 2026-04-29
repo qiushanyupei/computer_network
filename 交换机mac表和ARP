@@ -1,2 +1,4 @@
+ARP（Address Resolution Protocol）（属于网络层）功能：把网络层的ip地址解析成MAC地址
+Gratuitous ARP是更新内网中其他设备的ARP缓存
 ARP报文可以触发mac表更新信息（实际上交换机更新mac地址基于以太网帧本身特性）。该报文，由需要解析IP地址到MAC地址的设备发出。如首次通信时源主机由于已知目标IP，未知目标MAC，需要发送数据。
 一般场景是在交换机内广播，目标主机回复后更新mac表。主机有ARP缓存情况下即使mac表清空也不会发送ARP请求。
