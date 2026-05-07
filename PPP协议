@@ -3,3 +3,22 @@ PPP(Point-to-Point Protocol)帧：应用于宽带接入、工业网络
 其中FCS计算范围是flag字段外的其他区域（flag是PPP帧首尾标志）
 PPP中上有子层LCP(Logical Control Protocol)，PPP报文中的Information包含LCP包，LCP包中的Data部分是多个TLV组合（Type-Length-Data）
 LCP报头的Code字段中Configure-Nak是not ack，但会给出其他建议；reject则是直接拒绝；echo-request和echo-reply是测试链路是否联通；Discard-Request（要求丢弃）：通常用来做压力测试或单纯保持链路通畅
+
+PPP报文中的LCP报文的Information中的TLV（Data）中需要注意的Type:
+0x02: Async-Control-Character-Map：PPP报文中数据部分如果出现和流控字符一致的字符可以转义(如0x11 (XON) 和 0x13 (XOFF)控制流挂起或连续发送)，该Type控制哪些字符被转义
+0x04: Quality-Protocol:协商链路质量监控协议，以监测和报告链路的质量状况，例如监控丢包率或错误率
+0x05: Magic-Number：协商一个随机数，用于检测链路环路。如果收到包含自己魔术字的包，说明可能存在环路。
+0x07: Protocol-Field-Compression：决定是否压缩PPP协议中的Protocol字段
+0x08: Address-and-Control-Field-Compression：同理0x07
+
+PPPoE报文外部套了以太网头部，payload和PPP协议类似，也包含n个TLV组合。
+code字段常见取值：
+PADI（PPPoE Active Discovery Initiation	PPPoE）广播寻找能提供上网服务的服务器
+PADO(...Offer)可提供服务的ISP服务器单播回复客户端
+PADR(...Request)客户端单播回复选定的服务器请求连接
+PADS(...Session-confirmation)服务器同意连接并分配唯一sessionID
+PADT(...Terminate)任意一方终止会话
+TLV中需要注意的Type:
+Host-Uniq：主机在PADI或PADR中包含的任意二进制数据，类似session_id，服务端回复时要带上
+AC-Cookie:服务端给客户端，后续报文中客户端需要带上该字段，和Host-Uniq性质类似
+Relay-Session-Id:如有客户端和服务端间有中间代理转发流量，中间代理会附上该id，两端需加上该内容
