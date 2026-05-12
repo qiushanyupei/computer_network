@@ -1,1 +1,2 @@
-TFTP（Trivial File Transfer Protocol）
+TFTP（Trivial File Transfer Protocol）：基于UDP协议，简单，占用资源少
+FTP：基于TCP协议，需要用户名和密码，可靠传输
