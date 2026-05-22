@@ -5,3 +5,7 @@ simple network management protocol
 网络拓扑发现与资产管理：SNMP 能帮助自动扫描整个网络。管理软件通过读取设备中的 MIB（Management Information Base） 信息库，可以自动发现新接入的设备，识别其类型和厂商，并描绘出网络连接结构图，在大型网络中非常有用。
 
 OID(Object Identifier)：在 SNMP 体系里，是一个 全球唯一、树状结构 的数字编号
+
+运算符：
+::=       和一般编程语言中的右值赋给左变量不同，SNMP中是左值赋给右变量
+文件内部是一个树形结构，按深搜的方式逐步定义树上的每一个变量
