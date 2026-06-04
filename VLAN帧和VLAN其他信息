@@ -18,3 +18,5 @@ vlan类型：access trunk hybrid
 所有创建设备多需要加上网管vlan
 
 还需要配置接口的vlan类型，使接口能传递vlan流量
+access:单接入，传递单vlan流量，一般给终端配置，比如传vlan 10的数据包
+trunk：传递多vlan流量---- 交换-交换互相传vlan数据包
