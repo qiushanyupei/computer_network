@@ -41,6 +41,7 @@ L2、L1/2路由器建立关系无所谓AID匹不匹配
 若不匹配，只能形成L2邻接关系
 IS-IS中网络类型：1.广播链路：Ethernet、Token-Ring。2.点到点链路：如PPP、HDLC
 LSP是IS-IS协议中主要数据包
+IS-IS协议中头有ATT字段表示（似乎只有1bit，不同情况有歧义？）该位是1表示为L1/2路由器，为0则是其他两种路由器
 
 基于路径矢量更新：BGP协议
 与其他路由器建立TCP连接（相对于RIP、OSPF突破了只在内网中交换信息的限制），交换AS Path相关属性，选择最优路径更新路由表（As Path更短，local preference优先级更高）
