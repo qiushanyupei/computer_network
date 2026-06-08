@@ -1,0 +1,15 @@
+英文全称Protocol Independent Multicast - Sparse Mode(稀疏模式组播)
+工作流程:
+1)建立RPT(Rendezvous Point Tree)(汇聚树)
+2)建立SPT,源DR到RP(共享树根)SPT
+3)切换,建立源DR到接受测DR的SPT(Shortest Path Tree)（Designated Router:指定路由器）
+
+共享树中的所有组播流量都要经过RP转发给接收者
+所有PIM路由器都要知道RP的位置
+
+RP有两种:1)静态RP(手动配置)
+2)动态RP:  BSR(bootstrap router)(收集C-RP信息,通告给组播路由器); C-RP(候选RP);
+
+建立RPT流程
+新加入的节点首先发送IGMP报告报文给RP节点(先给2接受测路由器)(IGMP主动宣告想加入某组播组;响应查询：告知自己在哪个组播组中)
+然后转化为(*,G)条目((*,G) 代表来自任意源、发往组播组 G 的流量，都应该朝着 RP 的方向转发)(G是具体的组播组地址)
