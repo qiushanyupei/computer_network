@@ -12,7 +12,7 @@ _ 代表 AS 路径中的分隔符（相当于单词边界）。
 
 route-policy test permit node 10
 
-创建路由策略 test，节点 10 为 允许 模式。
+创建路由策略 节点名为test,序列号为10
 
 if-match as-path-filter 2
 
