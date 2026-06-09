@@ -6,5 +6,6 @@ OSPF (内部路由)	           10
 IS-IS (Level-1/Level-2)	    15
 STATIC (静态路由)	          60
 RIP	                       100
+OSPF其他特殊定义            150
 IBGP (内部边界网关协议)	   255
 EBGP (外部边界网关协议)	   255
