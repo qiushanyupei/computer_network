@@ -1,0 +1,10 @@
+Versatile Routing Platform(通用路由平台)
+是华为路由器、交换机等网络设备中内置的操作系统
+路由协议 / 路由类型	     默认优先级
+DIRECT (直连路由)	          0
+OSPF (内部路由)	           10
+IS-IS (Level-1/Level-2)	    15
+STATIC (静态路由)	          60
+RIP	                       100
+IBGP (内部边界网关协议)	   255
+EBGP (外部边界网关协议)	   255
