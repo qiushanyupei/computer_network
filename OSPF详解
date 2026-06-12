@@ -12,6 +12,15 @@
 邻居表
 LSDB:收集不同路由器LSA，进行SPF计算
 OSPF自身路由表
-
+ 
 OSPF报文类型：Hello、Database Description、Link State Request、Link State Update、Link State Ack
 封装于IP中，报文的ip头部中，协议号是89
+
+工作流程
+邻居状态：
+1、down状态，OSPF初始状态
+2、互相发送hello报文(默认通过组播方式发送hello报文,地址224.0.0.5)
+双方收到对端发的hello报文后，状态都改变为Init，neighbor字段也会填上对方router id
+hello报文时间间隔:每隔10秒；路由失效时间:4倍于hello报文时间间隔(也可以协商)
+
+DD报文描述数据库的摘要信息
