@@ -14,7 +14,9 @@ BGP的发言者：发送BGP报文的路由器
 因为EBGP可能终端，所以两个AS间会建立多个EBGP会话
 
 头部相同部分：
-16B的Marker
+16B的Marker，用于BGP验证的计算
+2B的Length，表示BGP消息总长度(包含报文头在内)，长度范围是19~4096
+1B的Type，表示BGP消息类型，Type有5个可选值
 
 最开始会发送open报文，包含BGP标识符，也就是router id，通过此确定使用哪一个TCP连接,选择router id较大的路由器发起的TCP连接，另一个TCP连接会被关闭
 会发送多个open报文协商参数，是TCP建立后的第一个报文
@@ -56,3 +58,7 @@ update时只传递聚合路由
 路由反射
 MPLS可以解决
 
+update包含Withdrawn Routes Length、Withdrawn Routes、Total Path Attribute Length(分别指出后两条的格式)、Path Attributes、Network Layer Reachability Information（NLRI）
+新增/撤回的路由列表是 按顺序给出10进制的掩码长度、16进制的掩码长度、后面接着实际掩码的16进制(NLRI和withdrawn routes)
+两个length字段为0，则说明没有要传递的信息
+路由属性中每一个单元都是TLV三元组
