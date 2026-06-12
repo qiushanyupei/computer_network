@@ -1,0 +1,17 @@
+有Router ID，具有唯一性(例：10.0.1.1)
+正常现网中推荐管理员手工配置；否则使用loopback接口中最大的ip地址作为router id；如果没有配置loopback接口，则使用物理接口中最大ip地址作为router id
+因为系统自动选择，后续还要查看ip是哪个路由器的
+
+有区域id，32bit非负整数点分十进制(area 0.0.0.1)
+
+有cost=100Mbit/s除以链路接口实际带宽，四舍五入展示，最小等于1
+以太网默认cost值为1，串口默认cost为64
+链路上每段累计cost(各个累加)，通常考虑源网段和目的网段的累计cost决定走哪条路
+
+重要的表
+邻居表
+LSDB:收集不同路由器LSA，进行SPF计算
+OSPF自身路由表
+
+OSPF报文类型：Hello、Database Description、Link State Request、Link State Update、Link State Ack
+封装于IP中，报文的ip头部中，协议号是89
