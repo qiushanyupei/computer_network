@@ -50,3 +50,5 @@ hello报文交互过程中就已经选举完成DR和BDR了
 链路层协议为以太网链路，则OSPF网络类型为广播型(MA网络)(multiple access)(常见)，需要选举DR，因此会消耗waiting Timer40s
 链路层协议为帧中继链路，则OSPF网络类型为NBMA，需要选举DR
 链路层协议为PPP链路或HDLC链路，则OSPF网络类型是点到多点(P2MP)
+
+路由器支持OSPF多进程，很多业务场景也需要将拓扑完全隔离开，可以通过多个OSPF进程建立各自的LSDB解决，但是通常一个物理接口只对应一个OSPF进程
