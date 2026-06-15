@@ -17,10 +17,36 @@ OSPF报文类型：Hello、Database Description、Link State Request、Link Stat
 封装于IP中，报文的ip头部中，协议号是89
 
 工作流程
-邻居状态：
+邻居状态：(2-way状态)
 1、down状态，OSPF初始状态
 2、互相发送hello报文(默认通过组播方式发送hello报文,地址224.0.0.5)
 双方收到对端发的hello报文后，状态都改变为Init，neighbor字段也会填上对方router id
 hello报文时间间隔:每隔10秒；路由失效时间:4倍于hello报文时间间隔(也可以协商)
 
-DD报文描述数据库的摘要信息
+DD报文描述数据库的摘要信息:这个LSA是谁的，不包含链路状态的描述
+开始发送DD报文即进入ExStart状态
+第一次发送DD报文是协商主从关系，后面再发送摘要信息
+DD报文字段：
+序列号保证可靠性和完整性
+MS决定主从关系
+
+LSR(link state request)
+LSU(link state update)：是对于LSR的回复
+LSAck:确认收到LSU
+通过这三个报文的交互，邻居关系转化为邻接关系
+
+
+DR(指定路由器):负责和所有路由器建立邻接关系关系，收集LSA，保持数据库完整
+BDR(Backup DR)备用DR:在DRdown时替代DR作用
+其他路由器就是DROther，只需要和DR和BDR建立联系，可以加快收敛，降低资源浪费
+
+DR和BDR基于接口进行选举，根据优先级和RouterID选举，优先级越大越优先，优先级相等，Router ID越大越优先。新加入设备无论多优先，都不会重新抢占DR，是非抢占式的
+DR坏了，BDR补上，然后其他路由器再选举为BDR
+hello报文交互过程中就已经选举完成DR和BDR了
+选举等待时间:40s，避免路由器设置OSPF有时间先后
+
+支持4种网络类型
+链路层协议为PPP链路或HDLC链路，则OSPF网络类型为Point-to-Point(常见)
+链路层协议为以太网链路，则OSPF网络类型为广播型(MA网络)(multiple access)(常见)，需要选举DR，因此会消耗waiting Timer40s
+链路层协议为帧中继链路，则OSPF网络类型为NBMA，需要选举DR
+链路层协议为PPP链路或HDLC链路，则OSPF网络类型是点到多点(P2MP)
