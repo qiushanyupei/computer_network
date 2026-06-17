@@ -64,6 +64,7 @@ router-LSA：每一台运行OSPF协议的路由器都会产生，只在所属区
 Link Type并非OSPF所支持的网络类型，包含虚连接(不参与区域内路由计算)、P2P(link Type表示拓扑信息，Link ID表示邻居的Router id，Link data表示1类LSA路由器接口的ip地址)、TransNet(描述MA或NBMA网络，是拓扑信息，Link ID表示DR的接口ip，Link data表示1类LSA接口的ip地址)、StubNet(属于网段信息，Link ID表示接口的ip地址，Link data表示网段的子网掩码)
 因此描述广播型网络没有网段信息
 
+Network-LSA:由DR产生
 
 OSPF特殊区域:
 1、Stub区域
