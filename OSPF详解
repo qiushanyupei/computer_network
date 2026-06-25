@@ -54,7 +54,7 @@ hello报文交互过程中就已经选举完成DR和BDR了
 
 路由器支持OSPF多进程，很多业务场景也需要将拓扑完全隔离开，可以通过多个OSPF进程建立各自的LSDB解决，但是通常一个物理接口只对应一个OSPF进程
 
-LSA报文头部:LSA类型、LS Age(越大越旧)(链路状态老化时间，即在数据库中的存储时间，0~3600s)、LS ID(在不同的LS类型中含义不同)、Advertising Router(哪台路由器产生的该LSA)、sequence(新的更大)、checksum(越大越新)
+LSA报文头部:LSA类型、LS Age(越大越旧)(链路状态老化时间，即在数据库中的存储时间，0~3600s)、LS ID(在不同的LS类型中含义不同)、Advertising Router(哪台路由器产生的该LSA)(通常由Adv rtr简称来代指)、sequence(新的更大)、checksum(越大越新)
 LSA一般每隔1800s更新一次
 比较LSA是否新按顺序看sequence、checksum、LS Age 
 
