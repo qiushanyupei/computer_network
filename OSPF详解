@@ -36,7 +36,7 @@ LSAck:确认收到LSU
 通过这三个报文的交互，邻居关系转化为邻接关系
 
 
-DR(指定路由器):负责和所有路由器建立邻接关系关系，收集LSA，保持数据库完整
+DR(指定路由器):负责和所有路由器建立邻接关系关系，收集LSA，保持数据库完整，是接口层面的概念，通常是路由器的某个接口
 BDR(Backup DR)备用DR:在DRdown时替代DR作用
 其他路由器就是DROther，只需要和DR和BDR建立联系，可以加快收敛，降低资源浪费
 
@@ -50,21 +50,27 @@ hello报文交互过程中就已经选举完成DR和BDR了
 链路层协议为以太网链路，则OSPF网络类型为广播型(MA网络)(multiple access)(常见)，需要选举DR，因此会消耗waiting Timer40s
 链路层协议为帧中继链路，则OSPF网络类型为NBMA，需要选举DR
 链路层协议为PPP链路或HDLC链路，则OSPF网络类型是点到多点(P2MP)
+点到点网络不会产生DR
 
 路由器支持OSPF多进程，很多业务场景也需要将拓扑完全隔离开，可以通过多个OSPF进程建立各自的LSDB解决，但是通常一个物理接口只对应一个OSPF进程
 
 LSA报文头部:LSA类型、LS Age(越大越旧)(链路状态老化时间，即在数据库中的存储时间，0~3600s)、LS ID(在不同的LS类型中含义不同)、Advertising Router(哪台路由器产生的该LSA)、sequence(新的更大)、checksum(越大越新)
 LSA一般每隔1800s更新一次
-比较LSA是否新按顺序看sequence、checksum、LS Age
+比较LSA是否新按顺序看sequence、checksum、LS Age 
 
 LS Type字段决定:路由器LSA(1类)、网络LSA(2类)、网络汇总LSA(3类)、ASBR汇总LSA(4类)、AS外部LSA(5类)、非完全末梢区域LSA(7类)
 
-router-LSA：每一台运行OSPF协议的路由器都会产生，只在所属区域内泛洪。使用Link来承载路由器直连接口的信息。每条Link表明直连接口的信息都包含链路类型、链路ID、链路数据、度量值
+router-LSA(1类)：每一台运行OSPF协议的路由器都会产生，只在所属区域内泛洪。使用Link来承载路由器直连接口的信息。每条Link表明直连接口的信息都包含链路类型、链路ID、链路数据、度量值
 其中LS ID是路由器的ip
 Link Type并非OSPF所支持的网络类型，包含虚连接(不参与区域内路由计算)、P2P(link Type表示拓扑信息，Link ID表示邻居的Router id，Link data表示1类LSA路由器接口的ip地址)、TransNet(描述MA或NBMA网络，是拓扑信息，Link ID表示DR的接口ip，Link data表示1类LSA接口的ip地址)、StubNet(属于网段信息，Link ID表示接口的ip地址，Link data表示网段的子网掩码)
 因此描述广播型网络没有网段信息
 
-Network-LSA:由DR产生
+Network-LSA(2类):由DR产生，描述本网段的链路状态，在所属区域内传播,记录了该网段内所有与DR建立了邻接关系的OSPF路由器的router id，同时携带了该网段的网络掩码，DR的接口ip地址
+LS id表示接口ip，Attached Router表示拓扑信息
+
+区域内SPF（单向的最短路径树）计算方法：
+1、每台路由器以自己为根，根据1、2类LSA的拓扑信息计算到目标网络的最短路径，经过的路由器会添加到SPF树中
+广播网络中DR和其所连接路由器的cost值为0，其中该DR被称为虚拟伪节点，DR逻辑上被看作是一台路由器(有时候物理上不连接，但是逻辑上看作连接)
 
 OSPF特殊区域:
 1、Stub区域
