@@ -64,3 +64,20 @@ update包含Withdrawn Routes Length、Withdrawn Routes、Total Path Attribute Le
 新增/撤回的路由列表是 按顺序给出10进制的掩码长度、16进制的掩码长度、后面接着实际掩码的16进制(NLRI和withdrawn routes)
 两个length字段为0，则说明没有要传递的信息
 路由属性中每一个单元都是TLV三元组
+
+一般超核 RR 发出的 BGP 报文（IBGP Update、Keepalive）是走IP+IS-IS
+而业务流量转发是通过MPLS+VPN
+MPLS 转发时打上标签后：`[二层头][MPLS标签][IP头][载荷]`
+**VRF**：Virtual Routing and Forwarding
+中文：**虚拟路由转发**
+## 内部包含什么
+1. **独立的 IP 路由表（IPv4/IPv6 各一张）**
+这是大家最常接触的部分，每个 VRF 有自己的`ip route`，不同 VRF 路由完全隔离，互相看不见。
+2. **ARP 表 / ND（neighborhood） 邻居表**
+每个 VRF 独立 ARP，A VRF 的 ARP 条目不会跑到 B VRF。
+3. **FIB 转发表(Forwarding Information Base)（CEF：Cisco Express Forwarding）**
+对应路由表生成硬件转发条目，数据平面真正查表用。
+4. **绑定的接口列表**比如每一个物理接口对应一个VRF
+接口必须归属到某个 VRF，接口收到报文才查这个 VRF 的路由；一个接口只能属于一个 VRF。
+5. **独立的协议实例**
+OSPF/BGP 可以每个 VRF 跑一套进程，协议学习的路由只存入本 VRF 路由表。就算两个VRF的ip相同，也可以通过不同的前缀RD(Router Distinguisher)区分
